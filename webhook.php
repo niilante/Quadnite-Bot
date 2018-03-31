@@ -1,6 +1,6 @@
 <?php
 $bot_name = "quadnite_bot";
-$bot_api = file_get_contents('api_key');
+$bot_api = require('api_key.php');
 
 // Checks whether the given command is the same as the entered command
 function check_command($command) {
