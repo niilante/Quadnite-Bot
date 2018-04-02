@@ -297,5 +297,5 @@ foreach ($modules as $module ) {
 if (!isset($decoded->{"message"}->{"text"})){
    exit();
 }
-send_text(get_insults());
+send_text(get_insults(), true);
 ?>
