@@ -215,11 +215,6 @@ fwrite($json, $var);
 fclose($json);
 $decoded = json_decode($var);
 
-// If message is a reply, exit
-if (isset($decoded->{"message"}->{"reply_to_message"})) {
-  exit();
-}
-
 // Store the chat ID
 $chat_id = $decoded->{"message"}->{"chat"}->{"id"};
 
@@ -282,6 +277,10 @@ $modules = array(
   )
 );
 
+if (!isset($decoded->{"message"}->{"text"})){
+   exit();
+}
+
 if (isset($decoded->{"message"}->{"pinned_message"})){
    exit();
 }
@@ -294,8 +293,11 @@ foreach ($modules as $module ) {
     exit();
   }
 }
-if (!isset($decoded->{"message"}->{"text"})){
-   exit();
+
+// If message is a reply, exit
+if (isset($decoded->{"message"}->{"reply_to_message"})) {
+  exit();
 }
+
 send_text(get_insults(), true);
 ?>
