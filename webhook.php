@@ -155,9 +155,6 @@ function domain_checker() {
     $post_text = $title ."  " . implode(' ', $output);
     send_text($post_text);
   }
-  else {
-    send_text(insults());
-  }
 }
 
 function rand_question()
