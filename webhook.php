@@ -211,8 +211,13 @@ function yes_or_no()
 // Kill yourself
 function kys() {
   global $decoded;
+  global $bot_name;
   $kys = file('kys.txt');
   $random_kys = $kys[rand(0,count($kys)-1)];
+  if ($decoded->{'message'}->{'reply_to_message'}->{'from'}->{'username'} == $bot_name){
+    send_text("I can't be killed.", true);
+    return;
+  }
   if (isset($decoded->{'message'}->{'reply_to_message'})) {
     if (isset($decoded->{'message'}->{'reply_to_message'}->{'from'}->{'username'})){
       $username = '@' . $decoded->{'message'}->{'reply_to_message'}->{'from'}->{'username'};
