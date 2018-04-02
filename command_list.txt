@@ -1,6 +1,7 @@
 question - Get a random question
 word - Get a random word
 words - Get n random words
+kys - Kill yourself
 dc - Check availability of .com domain
 coin - Tosses a coin
 wiki - search the Arch wiki

@@ -23,7 +23,7 @@ function send_code($post_message, $reply=false) {
   $url = 'https://api.telegram.org/bot' . $bot_api . '/sendMessage';
   $post_msg = array('chat_id' => $chat_id, 'text' => '```\n ' . $post_message . '```', 'parse_mode' => 'markdown' );
   if ($reply != false) {
-    if ($reply == true){
+    if ($reply === true){
       $post_msg['reply_to_message_id'] = $decoded->{'message'}->{'message_id'};
     }
     else {
@@ -49,7 +49,7 @@ function send_text($post_message, $reply=false) {
   $url = 'https://api.telegram.org/bot' . $bot_api . '/sendMessage';
   $post_msg = array('chat_id' => $chat_id, 'text' =>$post_message );
   if ($reply != false) {
-    if ($reply == true){
+    if ($reply === true){
       $post_msg['reply_to_message_id'] = $decoded->{'message'}->{'message_id'};
     }
     else {
@@ -76,7 +76,7 @@ function send_html($post_message, $reply=false) {
   $url = 'https://api.telegram.org/bot' . $bot_api . '/sendMessage';
   $post_msg = array('chat_id' => $chat_id, 'text' =>$post_message, 'parse_mode' => 'html');
   if ($reply != false) {
-    if ($reply == true){
+    if ($reply === true){
       $post_msg['reply_to_message_id'] = $decoded->{'message'}->{'message_id'};
     }
     else {
@@ -208,6 +208,20 @@ function yes_or_no()
    }
 }
 
+// Kill yourself
+function kys() {
+  global $decoded;
+  $kys = file('kys.txt');
+  $random_kys = $kys[rand(0,count($kys)-1)];
+  if (isset($decoded->{'message'}->{'reply_to_message'})) {
+    $reply_id = $decoded->{'message'}->{'reply_to_message'}->{'message'}->{'message_id'};
+    send_text($random_kys, $reply_id);
+  }
+  else {
+    send_text("Do you want to kill yourself?", true);
+  }
+}
+
 // Get JSON from post, store it and decode it.
 $var = file_get_contents('php://input');
 $json = fopen('json', "w");
@@ -274,6 +288,10 @@ $modules = array(
   array(
     "command" => "/should",
     "function" => "yes_or_no();"
+  ),
+  array(
+    "command" => "/kys",
+    "function" => "kys();"
   )
 );
 
