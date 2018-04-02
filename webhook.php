@@ -274,6 +274,10 @@ $modules = array(
     "function" => "yes_or_no();"
   ),
   array(
+    "command" => "/are",
+    "function" => "yes_or_no();"
+  ),
+  array(
     "command" => "/can",
     "function" => "yes_or_no();"
   ),

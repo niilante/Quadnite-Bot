@@ -6,6 +6,7 @@ dc - Check availability of .com domain
 coin - Tosses a coin
 wiki - search the Arch wiki
 is - Is <your question>
+are - Is <your question>
 can - Can <your question>
 will - will <your question>
 shall - shall <your question>
