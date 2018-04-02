@@ -214,7 +214,7 @@ function kys() {
   $kys = file('kys.txt');
   $random_kys = $kys[rand(0,count($kys)-1)];
   if (isset($decoded->{'message'}->{'reply_to_message'})) {
-    $reply_id = $decoded->{'message'}->{'reply_to_message'}->{'message'}->{'message_id'};
+    $reply_id = $decoded->{'message'}->{'reply_to_message'}->{'message_id'};
     send_text($random_kys, $reply_id);
   }
   else {
