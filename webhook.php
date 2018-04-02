@@ -214,8 +214,15 @@ function kys() {
   $kys = file('kys.txt');
   $random_kys = $kys[rand(0,count($kys)-1)];
   if (isset($decoded->{'message'}->{'reply_to_message'})) {
-    $reply_id = $decoded->{'message'}->{'reply_to_message'}->{'message_id'};
-    send_text($random_kys, $reply_id);
+    if (isset($decoded->{'message'}->{'reply_to_message'}->{'from'}->{'username'})){
+      $username = '@' . $decoded->{'message'}->{'reply_to_message'}->{'from'}->{'username'};
+      $random_kys = preg_replace('/##name##/g', $username, $random_kys);
+    }
+    else {
+      $first_name = $decoded->{'message'}->{'reply_to_message'}->{'from'}->{'first_name'};
+      $random_kys = preg_replace('/##name##/g', $first_name, $random_kys);
+    }
+    send_text($random_kys);
   }
   else {
     send_text("Do you want to kill yourself?", true);
