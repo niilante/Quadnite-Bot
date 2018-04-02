@@ -16,11 +16,20 @@ function check_command($command) {
 }
 
 // Send code back to the sender.
-function send_code($post_message) {
+function send_code($post_message, $reply=false) {
+  global $decoded;
   global $bot_api;
   global $chat_id;
   $url = 'https://api.telegram.org/bot' . $bot_api . '/sendMessage';
   $post_msg = array('chat_id' => $chat_id, 'text' => '```\n ' . $post_message . '```', 'parse_mode' => 'markdown' );
+  if ($reply != false) {
+    if ($reply == true){
+      $post_msg['reply_to_message_id'] = $decoded->{'message'}->{'message_id'};
+    }
+    else {
+      $post_msg['reply_to_message_id'] = $reply;
+    }
+  }
   $options = array(
     'http' => array(
       'header' => "Content-type: application/x-www-form-urlencoded\r\n",
@@ -33,11 +42,20 @@ function send_code($post_message) {
 }
 
 // Send text back to the sender.
-function send_text($post_message) {
+function send_text($post_message, $reply=false) {
+  global $decoded;
   global $bot_api;
   global $chat_id;
   $url = 'https://api.telegram.org/bot' . $bot_api . '/sendMessage';
   $post_msg = array('chat_id' => $chat_id, 'text' =>$post_message );
+  if ($reply != false) {
+    if ($reply == true){
+      $post_msg['reply_to_message_id'] = $decoded->{'message'}->{'message_id'};
+    }
+    else {
+      $post_msg['reply_to_message_id'] = $reply;
+    }
+  }
   $options = array(
     'http' => array(
       'header' => "Content-type: application/x-www-form-urlencoded\r\n",
@@ -51,11 +69,20 @@ function send_text($post_message) {
 
 
 // Send html back to the sender.
-function send_html($post_message) {
+function send_html($post_message, $reply=false) {
+  global $decoded;
   global $bot_api;
   global $chat_id;
   $url = 'https://api.telegram.org/bot' . $bot_api . '/sendMessage';
   $post_msg = array('chat_id' => $chat_id, 'text' =>$post_message, 'parse_mode' => 'html');
+  if ($reply != false) {
+    if ($reply == true){
+      $post_msg['reply_to_message_id'] = $decoded->{'message'}->{'message_id'};
+    }
+    else {
+      $post_msg['reply_to_message_id'] = $reply;
+    }
+  }
   $options = array(
     'http' => array(
       'header' => "Content-type: application/x-www-form-urlencoded\r\n",
@@ -159,6 +186,28 @@ function arch_wiki()
   send_html("<a href='" . $a[3][0] . "'>" . $a[1][0] . "</a>");
 }
 
+function coin()
+{
+   $random = rand(0,1);
+   if ($random == 1) {
+      send_text('Heads', true);
+   }
+   else {
+      send_text('Tails', true);
+   }
+}
+
+function yes_or_no()
+{
+   $random = rand(0,1);
+   if ($random == 1) {
+      send_text('Yes', true);
+   }
+   else {
+      send_text('No', true);
+   }
+}
+
 // Get JSON from post, store it and decode it.
 $var = file_get_contents('php://input');
 $json = fopen('json', "w");
@@ -169,28 +218,6 @@ $decoded = json_decode($var);
 // If message is a reply, exit
 if (isset($decoded->{"message"}->{"reply_to_message"})) {
   exit();
-}
-
-function coin()
-{
-   $random = rand(0,1);
-   if ($random == 1) {
-      send_text('Heads');
-   }
-   else {
-      send_text('Tails');
-   }
-}
-
-function yes_or_no()
-{
-   $random = rand(0,1);
-   if ($random == 1) {
-      send_text('Yes');
-   }
-   else {
-      send_text('No');
-   }
 }
 
 // Store the chat ID
@@ -255,9 +282,6 @@ $modules = array(
   )
 );
 
-if (!isset($decoded->{"message"}->{"text"})){
-   exit();
-}
 if (isset($decoded->{"message"}->{"pinned_message"})){
    exit();
 }
@@ -269,6 +293,9 @@ foreach ($modules as $module ) {
     eval($module["function"]);
     exit();
   }
+}
+if (!isset($decoded->{"message"}->{"text"})){
+   exit();
 }
 send_text(get_insults());
 ?>
