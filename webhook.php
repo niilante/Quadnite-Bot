@@ -216,11 +216,11 @@ function kys() {
   if (isset($decoded->{'message'}->{'reply_to_message'})) {
     if (isset($decoded->{'message'}->{'reply_to_message'}->{'from'}->{'username'})){
       $username = '@' . $decoded->{'message'}->{'reply_to_message'}->{'from'}->{'username'};
-      $random_kys = preg_replace('/##name##/g', $username, $random_kys);
+      $random_kys = preg_replace('/##name##/', $username, $random_kys);
     }
     else {
       $first_name = $decoded->{'message'}->{'reply_to_message'}->{'from'}->{'first_name'};
-      $random_kys = preg_replace('/##name##/g', $first_name, $random_kys);
+      $random_kys = preg_replace('/##name##/', $first_name, $random_kys);
     }
     send_text($random_kys);
   }
