@@ -303,6 +303,10 @@ $modules = array(
     "function" => "yes_or_no();"
   ),
   array(
+    "command" => "/do",
+    "function" => "yes_or_no();"
+  ),
+  array(
     "command" => "/kys",
     "function" => "kys();"
   )

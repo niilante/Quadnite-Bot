@@ -11,6 +11,7 @@ can - Can <your question>
 will - will <your question>
 shall - shall <your question>
 was - was <your question>
+do - does <your question>
 does - does <your question>
 did - did <your question>
 should - should <your question>
